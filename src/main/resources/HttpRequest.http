@@ -1,0 +1,12 @@
+###
+POST http://localhost:8888/api/v1/tasks/create
+Content-Type: application/json
+
+{
+"title": "Organize Files",
+"description": "Sort and organize all digital files in the shared drive.",
+"dueDate": "2025-01-15",
+"dueTime": "11:00:00",
+"priority": "LOW"
+}
+

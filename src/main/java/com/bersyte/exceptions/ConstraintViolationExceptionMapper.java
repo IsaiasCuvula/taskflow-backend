@@ -15,7 +15,7 @@ public class ConstraintViolationExceptionMapper implements ExceptionMapper<Const
         return Response.status(Response.Status.BAD_REQUEST).
                 entity(
                         new ErrorMessage(
-                                "Body must not be null",
+                                e.getLocalizedMessage (),
                                 Response.Status.BAD_REQUEST.name (),
                                 Response.Status.BAD_REQUEST.getStatusCode ()
                         )
