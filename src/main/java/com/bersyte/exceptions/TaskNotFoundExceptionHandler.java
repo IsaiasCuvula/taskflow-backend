@@ -14,7 +14,7 @@ public class TaskNotFoundExceptionHandler implements ExceptionMapper<TaskNotFoun
         return Response.status(Response.Status.NOT_FOUND).
                 entity(
                         new ErrorMessage(
-                                e.getLocalizedMessage (),
+                                e.getMessage (),
                                 Response.Status.NOT_FOUND.name (),
                                 Response.Status.NOT_FOUND.getStatusCode ()
                         )

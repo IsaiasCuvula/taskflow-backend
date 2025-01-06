@@ -1,12 +1,25 @@
 ###
+PUT http://localhost:8888/api/v1/tasks/update/2b958c66-697c-4cd9-9a82-f01bb22cde81
+Content-Type: application/json
+
+{
+  "title": "Delete More and more Files",
+  "description": "Sort and organize all digital files in the shared drive.",
+  "dueDate": "2025-01-15",
+  "dueTime": "11:00:00",
+  "priority": "LOW"
+}
+
+
+###
 POST http://localhost:8888/api/v1/tasks/create
 Content-Type: application/json
 
 {
-"title": "Organize Files",
-"description": "Sort and organize all digital files in the shared drive.",
-"dueDate": "2025-01-15",
-"dueTime": "11:00:00",
-"priority": "LOW"
+  "title": "Delete Files",
+  "description": "Sort and organize all digital files in the shared drive.",
+  "dueDate": "2025-01-15",
+  "dueTime": "11:00:00",
+  "priority": "LOW"
 }
 

@@ -1,6 +1,7 @@
 package com.bersyte.resources;
 
 import com.bersyte.dtos.CreateTaskDto;
+import com.bersyte.dtos.UpdateTaskDto;
 import com.bersyte.services.TaskService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -15,6 +16,31 @@ public class TaskResource {
 
     public TaskResource(TaskService taskService) {
         this.taskService = taskService;
+    }
+
+    @PUT
+    @Path ("/update/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateTask(
+            @NotNull @Valid UpdateTaskDto dto,
+            @PathParam ("id") String taskId
+    ) {
+        return Response.ok (taskService.updateTask (dto, taskId)).build ();
+    }
+
+    @DELETE
+    @Path ("/delete/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteTaskById(@Valid @PathParam ("id") String taskId) {
+        return Response.ok (taskService.deleteTaskById (taskId)).build ();
+    }
+
+    @GET
+    @Path ("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getTaskById(@Valid @PathParam ("id") String taskId) {
+        return Response.ok (taskService.getTaskById (taskId)).build ();
     }
 
     @POST

@@ -2,7 +2,9 @@ package com.bersyte.services;
 
 import com.bersyte.dtos.CreateTaskDto;
 import com.bersyte.dtos.TaskResponseDto;
+import com.bersyte.dtos.UpdateTaskDto;
 import com.bersyte.entities.Task;
+import com.bersyte.exceptions.TaskNotFoundException;
 import com.bersyte.mappers.TaskMapper;
 import com.bersyte.repositories.TaskRepository;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -22,12 +24,36 @@ public class TaskService {
         this.taskMapper = taskMapper;
     }
 
+    public TaskResponseDto updateTask(UpdateTaskDto dto, String taskId){
+        Task task = findById(taskId);
+        task.setDescription(dto.description ());
+        task.setTitle (dto.title ());
+        task.setDueDate (dto.dueDate ());
+        task.setDueTime (dto.dueTime ());
+        task.setDescription (dto.description ());
+        task.setPriority (dto.priority ());
+        //
+        taskRepository.persist (task);
+        //
+        return taskMapper.toResponseDto (task);
+    }
+
+    public String deleteTaskById(String taskId){
+        Task task = findById(taskId);
+        taskRepository.delete (task);
+        return "Task deleted successfully";
+    }
+
+    public TaskResponseDto getTaskById(String taskId) {
+        return taskMapper.toResponseDto (findById(taskId));
+    }
+
 
     public List<TaskResponseDto> getAllTasks(int page, int pageSize) {
-        PanacheQuery<Task> recipes = taskRepository
+        PanacheQuery<Task> tasks = taskRepository
                 .findAll()
                 .page (page, pageSize);
-        return recipes.stream ().map (taskMapper::toResponseDto).toList ();
+        return tasks.stream ().map (taskMapper::toResponseDto).toList ();
     }
 
     @Transactional
@@ -35,6 +61,13 @@ public class TaskService {
         Task task = taskMapper.fromDto(dto);
         taskRepository.persist(task);
         return taskMapper.toResponseDto (task);
+    }
+
+    private Task findById(String taskId) {
+        return taskRepository.find ("taskId", taskId)
+                .stream()
+                .findFirst ()
+                .orElseThrow (() -> new TaskNotFoundException ("Task not found"));
     }
 
 }
