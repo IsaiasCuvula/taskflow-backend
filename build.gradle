@@ -25,6 +25,7 @@ dependencies {
 
     //Test
     testImplementation 'io.quarkus:quarkus-junit5'
+    testImplementation 'io.quarkus:quarkus-junit5-mockito'
     testImplementation 'io.rest-assured:rest-assured'
 }
 
@@ -37,6 +38,9 @@ java {
 }
 
 test {
+    jvmArgs += ['-javaagent:' + configurations.testRuntimeClasspath.find {
+        it.name.contains("byte-buddy-agent")
+    }]
     systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
 }
 compileJava {
