@@ -10,24 +10,59 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Entity representing a task.
+ */
 @Entity(name = "tasks")
 @Table
 public class Task extends PanacheEntity {
+   /**
+    * Unique public identifier for the task.
+    */
    @Column(unique = true, nullable = false)
    private String taskId;
+   /**
+    * Title of the task.
+    */
    private String title;
+   /**
+    * Indicates whether the task is completed.
+    */
    private Boolean isCompleted;
+   /**
+    * Percentage of completion for the task.
+    */
    private Double percentageCompleted;
+   /**
+    * Description of the task.
+    */
    private String description;
+   /**
+    * Due date for the task.
+    */
    private LocalDate dueDate;
+   /**
+    * Due time for the task.
+    */
    private LocalTime dueTime;
+   /**
+    * Priority level of the task.
+    */
    private TaskPriority priority;
+   /**
+    * Timestamp when the task was created.
+    */
    private LocalDateTime createdAt;
 
+   /**
+    * List of subtasks associated with this task.
+    */
    @OneToMany(mappedBy = "task", fetch = FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true)
    private List<Subtask> subtasks = new ArrayList<> ();
 
+   /**
+    * List of links associated with this task.
+    */
    @OneToMany(mappedBy = "task",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
    private List<TaskLink> taskLinks = new ArrayList<>();
 

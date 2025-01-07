@@ -7,6 +7,15 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+/**
+ * Data Transfer Object for updating task details.
+ *
+ * @param title       Title of the task
+ * @param description Description of the task
+ * @param dueDate     Due date for the task
+ * @param dueTime     Due time for the task
+ * @param priority    Priority level of the task
+ */
 public record UpdateTaskDto(
         @NotEmpty(message = "Title cannot be empty")
         String title,

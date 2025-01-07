@@ -5,14 +5,29 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
+/**
+ * Entity representing a link associated with a task.
+ */
 @Entity(name = "task_links")
 @Table
 public class TaskLink extends PanacheEntity {
+    /**
+     * Unique identifier for the task link.
+     */
     @Column(unique = true, nullable = false)
     private String taskLinkId;
+    /**
+     * URL of the task link.
+     */
     private String  link;
+    /**
+     * Timestamp when the task link was created.
+     */
     private LocalDateTime createdAt;
 
+    /**
+     * The task associated with this link.
+     */
     @ManyToOne
     @JoinColumn(name = "taskOwnerId", nullable = false)
     private Task task;

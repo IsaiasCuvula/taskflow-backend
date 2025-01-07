@@ -7,17 +7,32 @@ import com.bersyte.entities.Task;
 import com.bersyte.exceptions.TaskNotFoundException;
 import jakarta.enterprise.context.ApplicationScoped;
 
+/**
+ * Mapper class for converting between Task entities and DTOs.
+ */
 @ApplicationScoped
 public class TaskMapper {
 
     private final SubtaskMapper subtaskMapper;
     private final TaskLinkMapper taskLinkMapper;
 
+    /**
+     * Constructor to initialize TaskMapper with dependencies.
+     *
+     * @param subtaskMapper  mapper for converting subtask objects
+     * @param taskLinkMapper mapper for converting task link objects
+     */
     public TaskMapper(SubtaskMapper subtaskMapper, TaskLinkMapper taskLinkMapper) {
         this.subtaskMapper = subtaskMapper;
         this.taskLinkMapper = taskLinkMapper;
     }
 
+    /**
+     * Converts a CreateTaskDto to a Task entity.
+     *
+     * @param dto the DTO containing task creation details
+     * @return a new Task entity
+     */
     public Task fromDto(CreateTaskDto dto){
         Task task = new Task();
         task.setTaskId (dto.taskId ());
@@ -32,6 +47,13 @@ public class TaskMapper {
         return task;
     }
 
+    /**
+     * Converts a Task entity to a TaskResponseDto.
+     *
+     * @param task the Task entity to convert
+     * @return the corresponding TaskResponseDto
+     * @throws TaskNotFoundException if the provided task is null
+     */
     public TaskResponseDto toResponseDto(Task task){
         if (task == null) {
             throw new TaskNotFoundException ("Task not found");
@@ -51,6 +73,13 @@ public class TaskMapper {
         );
     }
 
+    /**
+     * Converts a Task entity to an AllTaskResponseDto.
+     *
+     * @param task the Task entity to convert
+     * @return the corresponding AllTaskResponseDto
+     * @throws TaskNotFoundException if the provided task is null
+     */
     public AllTaskResponseDto toAllTaskResponseDto(Task task){
         if (task == null) {
             throw new TaskNotFoundException ("Task not found");

@@ -4,6 +4,9 @@ import com.bersyte.entities.Subtask;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 
+/**
+ * Repository interface for managing Subtask entities.
+ */
 @ApplicationScoped
 public class SubtaskRepository implements PanacheRepository<Subtask> {
 }

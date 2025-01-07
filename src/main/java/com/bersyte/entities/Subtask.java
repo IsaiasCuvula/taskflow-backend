@@ -5,15 +5,33 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
+/**
+ * Entity representing a subtask of a task.
+ */
 @Entity(name = "subtasks")
 @Table
 public class Subtask extends PanacheEntity {
+    /**
+     * Unique identifier for the subtask.
+     */
    @Column(unique = true, nullable = false)
    private String subtaskId;
+   /**
+    * Title of the subtask.
+    */
    private String  title;
+    /**
+     * Indicates whether the subtask is completed.
+     */
    private Boolean isCompleted;
+    /**
+     * Timestamp when the subtask was created.
+     */
    private LocalDateTime createdAt;
 
+    /**
+     * The task associated with this subtask.
+     */
     @ManyToOne
     @JoinColumn(name = "taskOwnerId", nullable = false)
     private Task task;
