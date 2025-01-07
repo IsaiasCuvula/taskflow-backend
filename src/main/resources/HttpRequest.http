@@ -1,3 +1,30 @@
+#TASK LINK
+###
+POST http://localhost:8888/api/v1/task-links/create/950e7673-daac-4f24-a533-81d585e28a3c
+Content-Type: application/json
+
+{
+  "link": "delete"
+}
+
+###
+GET http://localhost:8888/api/v1/task-links/ecd4aa39-d72d-40a8-a421-181ac88ed763
+
+###
+DELETE http://localhost:8888/api/v1/task-links/delete/0b31aa68-a73c-4026-abcf-586e6bcd3750
+
+
+###
+PUT http://localhost:8888/api/v1/task-links/update/ecd4aa39-d72d-40a8-a421-181ac88ed763
+Content-Type: application/json
+
+{
+  "link": "https://www.wikihow.com/Write-a-Report-Introduction"
+}
+
+###END-TASKLINK
+
+
 #SUBTASKS
 
 ###
@@ -18,11 +45,11 @@ Content-Type: application/json
 GET http://localhost:8888/api/v1/subtasks/task/950e7673-daac-4f24-a533-81d585e28a3c
 
 ###
-POST http://localhost:8888/api/v1/subtasks/create/950e7673-daac-4f24-a533-81d585e28a3c
+POST http://localhost:8888/api/v1/subtasks/create/a23e798c-05ca-4651-b7f8-0d477ca6b3a2
 Content-Type: application/json
 
 {
-   "title":"Delete"
+   "title":"Proofread and finalize the report"
 }
 
 ###END-SUBTASKS
