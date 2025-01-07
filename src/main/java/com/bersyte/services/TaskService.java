@@ -1,5 +1,6 @@
 package com.bersyte.services;
 
+import com.bersyte.dtos.task.AllTaskResponseDto;
 import com.bersyte.dtos.task.CreateTaskDto;
 import com.bersyte.dtos.task.TaskResponseDto;
 import com.bersyte.dtos.task.UpdateTaskDto;
@@ -55,11 +56,11 @@ public class TaskService {
     }
 
 
-    public List<TaskResponseDto> getAllTasks(int page, int pageSize) {
+    public List<AllTaskResponseDto> getAllTasks(int page, int pageSize) {
         PanacheQuery<Task> tasks = taskRepository
                 .findAll()
                 .page (page, pageSize);
-        return tasks.stream ().map (taskMapper::toResponseDto).toList ();
+        return tasks.stream ().map (taskMapper::toAllTaskResponseDto).toList ();
     }
 
     @Transactional

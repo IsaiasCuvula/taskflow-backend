@@ -1,5 +1,6 @@
 package com.bersyte.mappers;
 
+import com.bersyte.dtos.task.AllTaskResponseDto;
 import com.bersyte.dtos.task.CreateTaskDto;
 import com.bersyte.dtos.task.TaskResponseDto;
 import com.bersyte.entities.Task;
@@ -47,6 +48,23 @@ public class TaskMapper {
                 task.getCreatedAt (),
                 task.getSubtasks ().stream ().map (subtaskMapper::toResponseDto).toList (),
                 task.getTaskLinks ().stream ().map (taskLinkMapper::toResponseDto).toList ()
+        );
+    }
+
+    public AllTaskResponseDto toAllTaskResponseDto(Task task){
+        if (task == null) {
+            throw new TaskNotFoundException ("Task not found");
+        }
+        return new AllTaskResponseDto (
+                task.getTaskId (),
+                task.getTitle (),
+                task.getCompleted (),
+                task.getPercentageCompleted (),
+                task.getDescription (),
+                task.getDueDate (),
+                task.getDueTime (),
+                task.getPriority (),
+                task.getCreatedAt ()
         );
     }
 }
