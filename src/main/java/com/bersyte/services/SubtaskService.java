@@ -11,6 +11,8 @@ import com.bersyte.repositories.SubtaskRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 
+import java.util.Objects;
+
 
 @ApplicationScoped
 public class SubtaskService {
@@ -29,12 +31,20 @@ public class SubtaskService {
     }
 
     @Transactional
-    public SubtaskResponseDto updateSubtask(UpdateSubtaskDto dto, String subtaskId){
-        Subtask subtask = findSubtaskById (subtaskId);
+    public SubtaskResponseDto updateSubtask(UpdateSubtaskDto dto, String taskId){
+        Task task = taskService.findTaskById(taskId);
+        Subtask subtask = findSubtaskById (dto.subtaskId());
+
+        if(!Objects.equals (subtask.getTask ().getTaskId (), task.getTaskId ())){
+          throw new TaskNotFoundException ("Subtask not found");
+        }
+
         subtask.setCompleted (dto.isCompleted());
         //
         subtaskRepository.persist (subtask);
         //
+        taskService.markTaskAsCompleted (task);
+
         return subtaskMapper.toResponseDto (subtask);
     }
 

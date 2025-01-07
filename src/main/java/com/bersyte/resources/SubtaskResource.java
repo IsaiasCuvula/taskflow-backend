@@ -23,9 +23,9 @@ public class SubtaskResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateSubtask(
             @NotNull @Valid UpdateSubtaskDto dto,
-            @PathParam("id") String subtaskId
+            @PathParam("id") String taskId
     ) {
-        return Response.ok (subtaskService.updateSubtask (dto, subtaskId)).build ();
+        return Response.ok (subtaskService.updateSubtask (dto, taskId)).build ();
     }
 
     @DELETE

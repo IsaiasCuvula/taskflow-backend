@@ -4,6 +4,7 @@ import com.bersyte.dtos.task.AllTaskResponseDto;
 import com.bersyte.dtos.task.CreateTaskDto;
 import com.bersyte.dtos.task.TaskResponseDto;
 import com.bersyte.dtos.task.UpdateTaskDto;
+import com.bersyte.entities.Subtask;
 import com.bersyte.entities.Task;
 import com.bersyte.exceptions.TaskNotFoundException;
 import com.bersyte.mappers.TaskMapper;
@@ -27,6 +28,29 @@ public class TaskService {
     ) {
         this.taskRepository = taskRepository;
         this.taskMapper = taskMapper;
+    }
+
+    @Transactional
+    public void markTaskAsCompleted(Task task) {
+        double percentageCompleted = percentageCompleted(task);
+        task.setPercentageCompleted (percentageCompleted);
+
+        if(percentageCompleted >= 100) {
+            task.setCompleted (true);
+        }
+        taskRepository.persist (task);
+    }
+
+    private double percentageCompleted(Task task) {
+        List<Subtask> subtasks = task.getSubtasks();
+
+        if(subtasks.isEmpty()){return 0.0;}
+
+        long completedCount = subtasks.stream ()
+                .filter (Subtask::getCompleted)
+                .count ();
+
+        return (completedCount * 100.0) / subtasks.size ();
     }
 
     @Transactional

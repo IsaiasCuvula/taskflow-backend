@@ -34,11 +34,12 @@ GET http://localhost:8888/api/v1/subtasks/f9ed6fc8-f01b-40a0-adee-684f9d341351
 DELETE http://localhost:8888/api/v1/subtasks/delete/2c60a103-b655-4036-bc82-7b0f864d1fca
 
 ###
-PUT http://localhost:8888/api/v1/subtasks/update/2c60a103-b655-4036-bc82-7b0f864d1fca
+PUT http://localhost:8888/api/v1/subtasks/update/11d4b723-87e1-4f24-803c-2fc72ad45e06
 Content-Type: application/json
 
 {
-  "isCompleted": true
+  "isCompleted": true,
+  "subtaskId": "f2656c81-2d51-448f-9cf6-2e983ef39e65"
 }
 
 ###
@@ -57,7 +58,7 @@ Content-Type: application/json
 #TASKS
 
 ###
-GET http://localhost:8888/api/v1/tasks/a23e798c-05ca-4651-b7f8-0d477ca6b3a2
+GET http://localhost:8888/api/v1/tasks/950e7673-daac-4f24-a533-81d585e28a3c
 Content-Type: application/json
 
 ###
