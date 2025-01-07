@@ -3,11 +3,10 @@ package com.bersyte.services;
 import com.bersyte.dtos.task.AllTaskResponseDto;
 import com.bersyte.dtos.task.CreateTaskDto;
 import com.bersyte.dtos.task.TaskResponseDto;
+import com.bersyte.dtos.task.UpdateTaskDto;
 import com.bersyte.entities.Subtask;
 import com.bersyte.entities.Task;
 import com.bersyte.exceptions.TaskNotFoundException;
-import com.bersyte.mappers.SubtaskMapper;
-import com.bersyte.mappers.TaskLinkMapper;
 import com.bersyte.mappers.TaskMapper;
 import com.bersyte.repositories.TaskRepository;
 import com.bersyte.utils.TaskPriority;
@@ -88,6 +87,94 @@ class TaskServiceTest {
                 LocalDateTime.of (2025, 1,7, 20, 50)
         );
     }
+
+    @Test
+    @TestTransaction
+    void updateTask_thenShouldReturnUpdatedTask() {
+        // Arrange
+        String taskId = "a23e798c-05ca-4651-b7f8-0d477ca6b3a2";
+
+        Task existingTask = new Task();
+        existingTask.setTaskId(taskId);
+        existingTask.setTitle("Old Title");
+        existingTask.setDescription("Old Description");
+        existingTask.setDueDate(LocalDate.now());
+        existingTask.setDueTime(LocalTime.now());
+        existingTask.setPriority(TaskPriority.LOW);
+
+        UpdateTaskDto updateTaskDto = new UpdateTaskDto(
+                "New Title",
+                "New Description",
+                LocalDate.now().plusDays(1),
+                LocalTime.now().plusHours(1),
+                TaskPriority.HIGH
+        );
+
+        Task updatedTask = new Task();
+        updatedTask.setTaskId(taskId);
+        updatedTask.setTitle(updateTaskDto.title());
+        updatedTask.setDescription(updateTaskDto.description());
+        updatedTask.setDueDate(updateTaskDto.dueDate());
+        updatedTask.setDueTime(updateTaskDto.dueTime());
+        updatedTask.setPriority(updateTaskDto.priority());
+
+        TaskResponseDto expectedResponseDto = new TaskResponseDto(
+                taskId,
+                updateTaskDto.title(),
+                false,
+                0.0,
+                updateTaskDto.description(),
+                updateTaskDto.dueDate(),
+                updateTaskDto.dueTime(),
+                updateTaskDto.priority(),
+                LocalDateTime.now(),
+                new ArrayList<>(),
+                new ArrayList<>()
+        );
+
+        List<Task> taskList = List.of(updatedTask);
+
+        Mockito.when(mockPanacheQuery.stream()).thenReturn(taskList.stream());
+        Mockito.when(taskRepository.find("taskId", taskId))
+                .thenReturn(mockPanacheQuery);
+
+        Mockito.doNothing ().when(taskRepository).persist(any(Task.class));
+
+        // Lenient stubbing for the taskMapper
+        Mockito.lenient().when(taskMapper.toResponseDto(any(Task.class))).thenReturn(expectedResponseDto);
+
+        // Act
+        TaskResponseDto actualResponseDto = taskService.updateTask(updateTaskDto, taskId);
+
+        // Assert
+        assertNotNull(actualResponseDto);
+        assertEquals(expectedResponseDto, actualResponseDto);
+        Mockito.verify(taskRepository, Mockito.times(1)).persist(any(Task.class));
+    }
+
+    @Test
+    void updateTaskById_shouldNotFindTheTaskAndThrowException(){
+        //Arrange
+        UpdateTaskDto updateTaskDto = new UpdateTaskDto(
+                "New Title",
+                "New Description",
+                LocalDate.now().plusDays(1),
+                LocalTime.now().plusHours(1),
+                TaskPriority.HIGH
+        );
+        String taskId = "a23e798c-05ca-4651-b7f8-0d477ca6b3a2";
+        Mockito.when(mockPanacheQuery.stream()).thenReturn(Stream.empty ());
+        Mockito.when(taskRepository.find("taskId", taskId))
+                .thenReturn(mockPanacheQuery);
+
+        /// Act & Assert
+        assertThrows (
+                TaskNotFoundException.class,
+                ()-> taskService.updateTask (updateTaskDto, taskId), "Task not found"
+        );
+    }
+
+
 
     @Test
     void deleteTaskById_shouldNotFindTheTaskAndThrowException(){
