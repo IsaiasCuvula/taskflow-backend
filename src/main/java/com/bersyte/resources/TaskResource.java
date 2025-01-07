@@ -1,4 +1,4 @@
-package com.bersyte.mappers.resources;
+package com.bersyte.resources;
 
 import com.bersyte.dtos.task.CreateTaskDto;
 import com.bersyte.dtos.task.UpdateTaskDto;

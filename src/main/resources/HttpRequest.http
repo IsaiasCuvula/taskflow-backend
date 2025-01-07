@@ -1,3 +1,5 @@
+#SUBTASKS
+
 ###
 GET http://localhost:8888/api/v1/subtasks/f9ed6fc8-f01b-40a0-adee-684f9d341351
 
@@ -22,6 +24,10 @@ Content-Type: application/json
 {
    "title":"Delete"
 }
+
+###END-SUBTASKS
+
+#TASKS
 
 ###
 GET http://localhost:8888/api/v1/tasks/7f98484f-be70-4a5f-9571-652be21aa59c
@@ -56,3 +62,4 @@ Content-Type: application/json
   "priority": "HIGH"
 }
 
+###END-TASKS

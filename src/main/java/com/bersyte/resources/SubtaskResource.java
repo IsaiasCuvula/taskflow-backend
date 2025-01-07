@@ -1,4 +1,4 @@
-package com.bersyte.mappers.resources;
+package com.bersyte.resources;
 import com.bersyte.dtos.subtask.CreateSubtaskDto;
 import com.bersyte.dtos.subtask.UpdateSubtaskDto;
 import com.bersyte.services.SubtaskService;
@@ -51,20 +51,5 @@ public class SubtaskResource {
             @Valid @PathParam ("id") String taskId
     ) {
         return Response.ok (subtaskService.createSubtask (dto,taskId)).build ();
-    }
-
-    @GET
-    @Path ("/task/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllSubtasksByTaskId(
-            @QueryParam("page") @DefaultValue("0") int page,
-            @DefaultValue ("10") @QueryParam ("pageSize") int pageSize,
-            @Valid @PathParam ("id") String taskId
-    ) {
-        return Response.ok (
-                subtaskService.getAllSubtasksByTaskId (
-                        page, pageSize,taskId
-                )
-        ).build ();
     }
 }

@@ -8,11 +8,9 @@ import com.bersyte.entities.Task;
 import com.bersyte.exceptions.TaskNotFoundException;
 import com.bersyte.mappers.SubtaskMapper;
 import com.bersyte.repositories.SubtaskRepository;
-import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 
-import java.util.List;
 
 @ApplicationScoped
 public class SubtaskService {
@@ -49,16 +47,6 @@ public class SubtaskService {
 
     public SubtaskResponseDto getSubtaskById(String subtaskId) {
         return subtaskMapper.toResponseDto (findSubtaskById (subtaskId));
-    }
-
-
-    public List<SubtaskResponseDto> getAllSubtasksByTaskId(int page, int pageSize, String taskId) {
-        Task task = this.findTaskById(taskId);
-
-        PanacheQuery<Subtask> tasks = subtaskRepository
-                .find ("taskOwnerId", task.id)
-                .page (page, pageSize);
-        return tasks.stream ().map (subtaskMapper::toResponseDto).toList ();
     }
 
     @Transactional
