@@ -9,6 +9,14 @@ import jakarta.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class TaskMapper {
 
+    private final SubtaskMapper subtaskMapper;
+    private final TaskLinkMapper taskLinkMapper;
+
+    public TaskMapper(SubtaskMapper subtaskMapper, TaskLinkMapper taskLinkMapper) {
+        this.subtaskMapper = subtaskMapper;
+        this.taskLinkMapper = taskLinkMapper;
+    }
+
     public Task fromDto(CreateTaskDto dto){
         Task task = new Task();
         task.setTaskId (dto.taskId ());
@@ -36,9 +44,9 @@ public class TaskMapper {
                 task.getDueDate (),
                 task.getDueTime (),
                 task.getPriority (),
-                task.getCreatedAt ()
-//                task.getSubtasks (),
-//                task.getTaskLinks ()
+                task.getCreatedAt (),
+                task.getSubtasks ().stream ().map (subtaskMapper::toResponseDto).toList (),
+                task.getTaskLinks ().stream ().map (taskLinkMapper::toResponseDto).toList ()
         );
     }
 }

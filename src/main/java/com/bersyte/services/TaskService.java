@@ -19,7 +19,11 @@ public class TaskService {
     private final TaskRepository taskRepository;
     private final TaskMapper taskMapper;
 
-    public TaskService(TaskRepository taskRepository, TaskMapper taskMapper) {
+
+    public TaskService(
+            TaskRepository taskRepository,
+            TaskMapper taskMapper
+    ) {
         this.taskRepository = taskRepository;
         this.taskMapper = taskMapper;
     }
