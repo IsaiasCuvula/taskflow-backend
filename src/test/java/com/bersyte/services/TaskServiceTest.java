@@ -1,5 +1,6 @@
 package com.bersyte.services;
 
+import com.bersyte.dtos.task.AllTaskResponseDto;
 import com.bersyte.dtos.task.CreateTaskDto;
 import com.bersyte.dtos.task.TaskResponseDto;
 import com.bersyte.entities.Subtask;
@@ -27,6 +28,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -45,10 +47,13 @@ class TaskServiceTest {
 
     private Task task;
     private Subtask subtask1, subtask2;
+    private PanacheQuery<Task> mockPanacheQuery;
 
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
+        // Mock PanacheQuery
+        mockPanacheQuery = Mockito.mock();
 
         String taskId = "a23e798c-05ca-4651-b7f8-0d477ca6b3a2";
 
@@ -85,6 +90,131 @@ class TaskServiceTest {
     }
 
     @Test
+    void deleteTaskById_shouldNotFindTheTaskAndThrowException(){
+        //Arrange
+        String taskId = "a23e798c-05ca-4651-b7f8-0d477ca6b3a2";
+        Mockito.when(mockPanacheQuery.stream()).thenReturn(Stream.empty ());
+        Mockito.when(taskRepository.find("taskId", taskId))
+                .thenReturn(mockPanacheQuery);
+
+        /// Act & Assert
+        assertThrows (
+                TaskNotFoundException.class,
+                ()-> taskService.deleteTaskById (taskId), "Task not found"
+        );
+    }
+
+
+    @Test
+    void deleteTaskById_shouldFindTheTaskAndDeleteTheTask(){
+        //Arrange
+        String taskId = "a23e798c-05ca-4651-b7f8-0d477ca6b3a2";
+        Task expectedTask = task;
+        List<Task> taskList = List.of(expectedTask);
+        String expectedMessage = "Task deleted successfully";
+
+        Mockito.when(mockPanacheQuery.stream()).thenReturn(taskList.stream());
+        Mockito.when(taskRepository.find("taskId", taskId))
+                .thenReturn(mockPanacheQuery);
+
+        //Act
+        String actualResult = taskService.deleteTaskById (taskId);
+
+        //Assert
+        assertNotNull (actualResult);
+        assertEquals(expectedMessage, actualResult);
+        verify(taskRepository, times (1)).find ("taskId", taskId);
+        verify(taskRepository, times (1)).delete (task);
+    }
+
+
+
+    @Test
+    void findTaskById_thenShouldReturnTaskResponseDto() {
+        //Arrange
+        String taskId = "a23e798c-05ca-4651-b7f8-0d477ca6b3a2";
+        Task expectedTask = task;
+        List<Task> taskList = List.of(expectedTask);
+
+        TaskResponseDto expectedResponseDto = new TaskResponseDto(
+                task.getTaskId (),
+                task.getTitle (),
+                task.getCompleted (),
+                task.getPercentageCompleted (),
+                task.getDescription (),
+                task.getDueDate (),
+                task.getDueTime (),
+                task.getPriority (),
+                task.getCreatedAt (),
+                new ArrayList<>(),
+                new ArrayList<> ()
+        );
+
+        Mockito.when(taskMapper.toResponseDto(task)).thenReturn(expectedResponseDto);
+        Mockito.when(mockPanacheQuery.stream()).thenReturn(taskList.stream());
+        Mockito.when(taskRepository.find("taskId", taskId))
+                .thenReturn(mockPanacheQuery);
+
+        // Act
+        TaskResponseDto actualResponseDto = taskService.getTaskById(taskId);
+
+        //Assert
+        assertNotNull (actualResponseDto);
+        assertEquals(expectedResponseDto, actualResponseDto);
+        verify(taskRepository, times (1)).find ("taskId", taskId);
+    }
+
+
+    @Test
+    void getAllTasks_ShouldReturnEmptyList_WhenNoTasks() {
+        // Arrange
+        when(taskRepository.findAll()).thenReturn(mockPanacheQuery);
+        when(mockPanacheQuery.page(0, 10)).thenReturn(mockPanacheQuery);
+        when(mockPanacheQuery.stream()).thenReturn(Stream.empty ());
+
+        // Act
+        List<AllTaskResponseDto> result = taskService.getAllTasks(0, 10);
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+        verify(taskRepository).findAll();
+        verify(mockPanacheQuery).page(0, 10);
+    }
+
+
+
+    @Test
+    void getAllTasks_ShouldReturnPagedResults() {
+        // Arrange
+        AllTaskResponseDto expectedResponseDto = new AllTaskResponseDto(
+                task.getTaskId (),
+                task.getTitle (),
+                task.getCompleted (),
+                task.getPercentageCompleted (),
+                task.getDescription (),
+                task.getDueDate (),
+                task.getDueTime (),
+                task.getPriority (),
+                task.getCreatedAt ()
+        );
+        List<Task> taskList = Arrays.asList(task);
+        when(taskRepository.findAll()).thenReturn(mockPanacheQuery);
+        when(mockPanacheQuery.page(0, 10)).thenReturn(mockPanacheQuery);
+        when(mockPanacheQuery.stream()).thenReturn(taskList.stream());
+        when(taskMapper.toAllTaskResponseDto(task)).thenReturn(expectedResponseDto);
+
+        // Act
+        List<AllTaskResponseDto> result = taskService.getAllTasks(0, 10);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        verify(taskRepository).findAll();
+        verify(mockPanacheQuery).page(0, 10);
+    }
+
+    @Test
     void findTaskById_shouldHandleNullInput() {
         // Arrange
         String taskId = null;
@@ -101,10 +231,9 @@ class TaskServiceTest {
     void findTaskById_shouldThrowExceptionWhenTaskNotFound() {
         String taskId = "7f98484f-be70-4a5f-9571-652be21aa59c";
 
-        PanacheQuery<Task> mockedQuery = Mockito.mock ();
-        Mockito.when(mockedQuery.stream()).thenReturn(Stream.empty ());
+        Mockito.when(mockPanacheQuery.stream()).thenReturn(Stream.empty ());
         Mockito.when(taskRepository.find("taskId", taskId))
-                .thenReturn(mockedQuery);
+                .thenReturn(mockPanacheQuery);
 
         /// Act & Assert
         assertThrows (
@@ -121,10 +250,9 @@ class TaskServiceTest {
         Task expectedTask = task;
         List<Task> taskList = List.of(expectedTask);
 
-        PanacheQuery<Task> mockedQuery = Mockito.mock ();
-        Mockito.when(mockedQuery.stream()).thenReturn(taskList.stream());
+        Mockito.when(mockPanacheQuery.stream()).thenReturn(taskList.stream());
         Mockito.when(taskRepository.find("taskId", taskId))
-                .thenReturn(mockedQuery);
+                .thenReturn(mockPanacheQuery);
 
         //Act
         Task actualTask = taskService.findTaskById (taskId);
