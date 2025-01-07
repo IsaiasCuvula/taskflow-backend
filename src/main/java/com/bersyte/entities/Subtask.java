@@ -12,7 +12,6 @@ public class Subtask extends PanacheEntity {
    private String subtaskId;
    private String  title;
    private Boolean isCompleted;
-   private Long taskId;
    private LocalDateTime createdAt;
 
     @ManyToOne
@@ -41,14 +40,6 @@ public class Subtask extends PanacheEntity {
 
     public void setCompleted(Boolean completed) {
         isCompleted = completed;
-    }
-
-    public Long getTaskId() {
-        return taskId;
-    }
-
-    public void setTaskId(Long taskId) {
-        this.taskId = taskId;
     }
 
     public LocalDateTime getCreatedAt() {
