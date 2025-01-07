@@ -36,9 +36,9 @@ public class TaskMapper {
                 task.getDueDate (),
                 task.getDueTime (),
                 task.getPriority (),
-                task.getCreatedAt (),
-                task.getSubtasks (),
-                task.getTaskLinks ()
+                task.getCreatedAt ()
+//                task.getSubtasks (),
+//                task.getTaskLinks ()
         );
     }
 }

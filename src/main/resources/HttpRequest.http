@@ -1,13 +1,21 @@
 ###
-PUT http://localhost:8888/api/v1/tasks/update/2b958c66-697c-4cd9-9a82-f01bb22cde81
+GET http://localhost:8888/api/v1/tasks/7f98484f-be70-4a5f-9571-652be21aa59c
+Content-Type: application/json
+
+###
+DELETE http://localhost:8888/api/v1/tasks/delete/7f98484f-be70-4a5f-9571-652be21aa59c
+
+
+###
+PUT http://localhost:8888/api/v1/tasks/update/7f98484f-be70-4a5f-9571-652be21aa59c
 Content-Type: application/json
 
 {
-  "title": "Delete More and more Files",
-  "description": "Sort and organize all digital files in the shared drive.",
+  "title": "Backend project",
+  "description": "Backend Sort and organize all digital files in the shared drive.",
   "dueDate": "2025-01-15",
-  "dueTime": "11:00:00",
-  "priority": "LOW"
+  "dueTime": "22:00:00",
+  "priority": "HIGH"
 }
 
 
@@ -16,10 +24,10 @@ POST http://localhost:8888/api/v1/tasks/create
 Content-Type: application/json
 
 {
-  "title": "Delete Files",
-  "description": "Sort and organize all digital files in the shared drive.",
-  "dueDate": "2025-01-15",
-  "dueTime": "11:00:00",
-  "priority": "LOW"
+  "title": "Task Flow Backend Project",
+  "description": "Create and save all project in the shared drive.",
+  "dueDate": "2025-03-19",
+  "dueTime": "23:00:00",
+  "priority": "HIGH"
 }
 

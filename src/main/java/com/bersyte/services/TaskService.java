@@ -24,6 +24,7 @@ public class TaskService {
         this.taskMapper = taskMapper;
     }
 
+    @Transactional
     public TaskResponseDto updateTask(UpdateTaskDto dto, String taskId){
         Task task = findById(taskId);
         task.setDescription(dto.description ());
@@ -38,6 +39,7 @@ public class TaskService {
         return taskMapper.toResponseDto (task);
     }
 
+    @Transactional
     public String deleteTaskById(String taskId){
         Task task = findById(taskId);
         taskRepository.delete (task);

@@ -25,10 +25,10 @@ public class Task extends PanacheEntity {
    private TaskPriority priority;
    private LocalDateTime createdAt;
 
-   @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
+   @OneToMany(mappedBy = "task", fetch = FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true)
    private List<Subtask> subtasks = new ArrayList<> ();
 
-   @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
+   @OneToMany(mappedBy = "task",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
    private List<TaskLink> taskLinks = new ArrayList<>();
 
 
