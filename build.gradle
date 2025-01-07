@@ -20,6 +20,9 @@ dependencies {
     implementation 'io.quarkus:quarkus-hibernate-orm'
     implementation 'io.quarkus:quarkus-hibernate-orm-panache'
 
+    //SwaggerUI
+    implementation 'io.quarkus:quarkus-smallrye-openapi'
+
     //Test
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.rest-assured:rest-assured'

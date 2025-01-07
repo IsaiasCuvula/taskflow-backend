@@ -10,6 +10,8 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 @Path("/api/v1/tasks")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class TaskResource {
 
     private final TaskService taskService;
@@ -20,8 +22,6 @@ public class TaskResource {
 
     @PUT
     @Path ("/update/{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     public Response updateTask(
             @NotNull @Valid UpdateTaskDto dto,
             @PathParam ("id") String taskId
@@ -38,21 +38,17 @@ public class TaskResource {
 
     @GET
     @Path ("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
     public Response getTaskById(@Valid @PathParam ("id") String taskId) {
         return Response.ok (taskService.getTaskById (taskId)).build ();
     }
 
     @POST
     @Path ("/create")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     public Response createTask(@NotNull @Valid CreateTaskDto dto) {
         return Response.ok (taskService.createTask (dto)).build ();
     }
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
     public Response getAllTasks(
             @QueryParam("page") @DefaultValue("0") int page,
             @DefaultValue ("10") @QueryParam ("pageSize") int pageSize
