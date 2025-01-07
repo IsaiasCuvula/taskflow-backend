@@ -1,7 +1,7 @@
 package com.bersyte.resources;
 
-import com.bersyte.dtos.CreateTaskDto;
-import com.bersyte.dtos.UpdateTaskDto;
+import com.bersyte.dtos.task.CreateTaskDto;
+import com.bersyte.dtos.task.UpdateTaskDto;
 import com.bersyte.services.TaskService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;

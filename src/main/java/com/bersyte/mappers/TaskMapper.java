@@ -1,7 +1,7 @@
 package com.bersyte.mappers;
 
-import com.bersyte.dtos.CreateTaskDto;
-import com.bersyte.dtos.TaskResponseDto;
+import com.bersyte.dtos.task.CreateTaskDto;
+import com.bersyte.dtos.task.TaskResponseDto;
 import com.bersyte.entities.Task;
 import com.bersyte.exceptions.TaskNotFoundException;
 import jakarta.enterprise.context.ApplicationScoped;

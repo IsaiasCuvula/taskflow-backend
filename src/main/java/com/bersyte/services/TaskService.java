@@ -1,8 +1,8 @@
 package com.bersyte.services;
 
-import com.bersyte.dtos.CreateTaskDto;
-import com.bersyte.dtos.TaskResponseDto;
-import com.bersyte.dtos.UpdateTaskDto;
+import com.bersyte.dtos.task.CreateTaskDto;
+import com.bersyte.dtos.task.TaskResponseDto;
+import com.bersyte.dtos.task.UpdateTaskDto;
 import com.bersyte.entities.Task;
 import com.bersyte.exceptions.TaskNotFoundException;
 import com.bersyte.mappers.TaskMapper;
@@ -26,7 +26,7 @@ public class TaskService {
 
     @Transactional
     public TaskResponseDto updateTask(UpdateTaskDto dto, String taskId){
-        Task task = findById(taskId);
+        Task task = findTaskById (taskId);
         task.setDescription(dto.description ());
         task.setTitle (dto.title ());
         task.setDueDate (dto.dueDate ());
@@ -41,13 +41,13 @@ public class TaskService {
 
     @Transactional
     public String deleteTaskById(String taskId){
-        Task task = findById(taskId);
+        Task task = findTaskById (taskId);
         taskRepository.delete (task);
         return "Task deleted successfully";
     }
 
     public TaskResponseDto getTaskById(String taskId) {
-        return taskMapper.toResponseDto (findById(taskId));
+        return taskMapper.toResponseDto (findTaskById (taskId));
     }
 
 
@@ -65,7 +65,7 @@ public class TaskService {
         return taskMapper.toResponseDto (task);
     }
 
-    private Task findById(String taskId) {
+    Task findTaskById(String taskId) {
         return taskRepository.find ("taskId", taskId)
                 .stream()
                 .findFirst ()

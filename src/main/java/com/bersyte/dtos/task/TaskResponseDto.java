@@ -1,4 +1,4 @@
-package com.bersyte.dtos;
+package com.bersyte.dtos.task;
 
 import com.bersyte.utils.TaskPriority;
 import java.time.LocalDate;
