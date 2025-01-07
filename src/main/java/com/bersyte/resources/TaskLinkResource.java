@@ -10,6 +10,8 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 @Path("/api/v1/task-links")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class TaskLinkResource {
 
     private final TaskLinkService taskLinkService;
@@ -20,8 +22,6 @@ public class TaskLinkResource {
 
     @PUT
     @Path ("/update/{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     public Response updateTaskLink(
             @NotNull @Valid UpdateTaskLinkDto dto,
             @PathParam("id") String taskLinkId
@@ -31,22 +31,18 @@ public class TaskLinkResource {
 
     @DELETE
     @Path ("/delete/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
     public Response deleteTaskLinkById(@Valid @PathParam ("id") String taskLinkId) {
         return Response.ok (taskLinkService.deleteTaskLinkById (taskLinkId)).build ();
     }
 
     @GET
     @Path ("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
     public Response getTaskLinkById(@Valid @PathParam ("id") String taskLinkId) {
         return Response.ok (taskLinkService.getTaskLinkById (taskLinkId)).build ();
     }
 
     @POST
     @Path ("/create/{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     public Response createTaskLink(
             @NotNull @Valid CreateTaskLinkDto dto,
             @Valid @PathParam ("id") String taskId

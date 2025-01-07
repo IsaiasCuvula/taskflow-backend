@@ -9,6 +9,8 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 @Path("/api/v1/subtasks")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class SubtaskResource {
 
     private final SubtaskService subtaskService;
@@ -19,8 +21,6 @@ public class SubtaskResource {
 
     @PUT
     @Path ("/update/{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     public Response updateSubtask(
             @NotNull @Valid UpdateSubtaskDto dto,
             @PathParam("id") String taskId
@@ -30,22 +30,18 @@ public class SubtaskResource {
 
     @DELETE
     @Path ("/delete/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
     public Response deleteSubtaskById(@Valid @PathParam ("id") String subtaskId) {
         return Response.ok (subtaskService.deleteSubtaskById (subtaskId)).build ();
     }
 
     @GET
     @Path ("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
     public Response getSubtaskById(@Valid @PathParam ("id") String subtaskId) {
         return Response.ok (subtaskService.getSubtaskById (subtaskId)).build ();
     }
 
     @POST
     @Path ("/create/{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     public Response createSubtask(
             @NotNull @Valid CreateSubtaskDto dto,
             @Valid @PathParam ("id") String taskId
