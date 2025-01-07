@@ -1,0 +1,11 @@
+com.bersyte.config
+com.bersyte.dtos.subtask
+com.bersyte.dtos.task
+com.bersyte.dtos.taskLink
+com.bersyte.entities
+com.bersyte.exceptions
+com.bersyte.mappers
+com.bersyte.repositories
+com.bersyte.resources
+com.bersyte.services
+com.bersyte.utils
