@@ -152,7 +152,7 @@ public class TaskService {
      * @return the task entity
      * @throws TaskNotFoundException if the task is not found
      */
-    Task findTaskById(String taskId) {
+    public Task findTaskById(String taskId) {
         return taskRepository.find ("taskId", taskId)
                 .stream()
                 .findFirst ()
