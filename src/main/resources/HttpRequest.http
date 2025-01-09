@@ -62,6 +62,10 @@ GET http://localhost:8888/api/v1/tasks/950e7673-daac-4f24-a533-81d585e28a3c
 Content-Type: application/json
 
 ###
+GET http://localhost:8888/api/v1/tasks
+Content-Type: application/json
+
+###
 DELETE http://localhost:8888/api/v1/tasks/delete/7f98484f-be70-4a5f-9571-652be21aa59c
 
 
